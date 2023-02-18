@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All jobs</title>
+</head>
+<body>
+<!-- this dynamic way of creating urls is the proper way to do it. we are using
+the reverse method that allows us to get the urls by name, not by hard coding them into the href -->
+<a href="{% url 'home' %}">
+    <h1>Home</h1>
+</a>
+<!-- same deal, plus the forloop.counter function. this forloop.counter is to transform the index of
+the for loop into an int that can be used as an arg for a different view link.
+remember to use the 0 to get the iteration from the very star -->
+    <ul>
+        {% for i in all_jobs %}
+        <li>
+            <a href="{% url 'job_by_id' forloop.counter0 %}">{{ i }} </a>
+            <!-- <a href="job/{{forloop.counter0}}">{{ i }} </a> -->
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
