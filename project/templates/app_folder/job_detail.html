@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>this is the index</title>
+</head>
+<body>
+    <h1>
+        Hello {{name}}, {{ assume }}
+    </h1>
+    {% if name %}
+        <h3>
+            {{name}} says: Good good. You?
+        </h3>
+    {% endif %}
+
+    {% comment 'comment_1'%}
+        this is a comment, not meant to be rendered on the screen.
+        below, we are using the filter "add", for more info, check the
+        official documentation
+    {% endcomment %}
+    {% for x in list %}
+        {{ x|add:"2" }}
+    {% endfor %}
+
+
+
+</body>
+</html>
