@@ -11,13 +11,17 @@ class JobPost(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     salary = models.IntegerField()
     # a slug is a human-friendly url that can be placed on the url bar on your browser
-    slug = models.SlugField(null=True)
+    slug = models.SlugField(null=True, max_length=50, unique=True)
 
     # this messy function is responsible to create the slugs from the titles field of the model.
     # after you create the new object using the model in the console, you can see the result of this funct in the
-    # database, where the slug field should have the title slugify
+    # database, where the slug field should have the title slugified
+    # the second line in this function is used to make sure that even after the title of the object is changed, the
+    # slug remains the same. this is a good practice that will prevent you from having broken urls on your app.
+    # this condition only checks if the object has an id, meaning if it already exists
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        if not self.id:
+            self.slug = slugify(self.title)
         return super(JobPost, self).save(*args, **kwargs)
 
     # once you add these new field, you need to sync them using the terminal command py manage.py makemigrations
