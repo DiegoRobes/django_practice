@@ -1,0 +1,96 @@
+####### when it comes to the next commands, you can use all of them inside your python script and they will work, but it 
+is also very handy to know how to use them in the terminal ######
+
+
+### this command in the terminal will make access the django shell ####
+
+(venv) PS C:\Users\Familia\PycharmProjects\Django_projects\job_app_project> py manage.py shell
+
+
+#### this commands import the models and create a new object to be introduced into the database ####
+
+from <application_folder_name>.models import <model_name>
+from app_folder.models import JobPost 
+
+>>> JobPost.objects.create(title="i can see you", description="in your sleepd", salary="000")
+<JobPost: i can see you>
+>>> 
+
+#### this code is  the way to make a query with all the objects made from a single class, and also a way to filter 
+them by using some parameters ###
+
+#### similar to every_job.filter(description="woof woof") , you can use every_job.get(), but if the parameter you enter is empty,
+it will return a warning. while filter() will only give you an empty query [] ####
+
+#### also, get() will crash if you try to return more than 1 object!! ####
+
+Windows PowerShell
+(InteractiveConsole)
+>>> from app_folder.models import JobPost
+>>> every_job = JobPost.objects.all()
+>>> print(every_job)
+<QuerySet [<JobPost: lorem ipsum>, <JobPost: oh my dog>]>
+>>> every_job.filter(description="nonono") 
+<QuerySet [<JobPost: lorem ipsum>]>
+>>> every_job.filter(description="woof woof") 
+<QuerySet [<JobPost: oh my dog>]>
+
+
+
+### the exclude() function is used to get all the data that does not match with the params especified 
+>>> every_job = JobPost.objects.exclude(salary=1000, title=some job)
+### this command will return every job that does not match with salara of 1000 and title of some job 
+
+
+### you can use the slicing operator in the django query, in a very similar way you
+do in python.
+>>>JobPost.objects.filter()[0:4]
+>>> JobPost.objects.filter()[2:24:2]
+### notice the slicing operator working the same way here as in a normal list in python
+
+
+### order_by() is a function to sort your results. it can be done by ascending 
+or descending order in any specific way.
+>>> JobPost.objects.filter_by("title")
+this one order the query by title and goes in descending order, this being the default 
+way it works. to make it ascending, you gotta use a "-", like so
+>>> JobPost.objects.filter_by("-title")
+and now the results will be presented in the inverse order 
+### you can even sort in this query using slicing and index methods, like so:
+>>> JobPost.objects.filter_by("-title")[1]
+>>> JobPost.objects.filter_by("-title")[0:67:2]
+this function can also take multiple args:
+>>> JobPost.objects.filter_by("-title", "description")
+by using the next one, youll get randomized results: 
+>>> JobPost.objects.filter_by("?")
+
+
+#### if you want to fetch records with a condition "greater than something", you
+can use something called "field_lookups". these allow you to specify some powerfull 
+conditions, like greater than, smaller than, starts with, endswith and many more
+>>> JobPost.objects.filter(salary__gt=1000)
+there we are asking for a job with salary greater than 1000 using "gt"
+camplete list of lookups in this link 
+https://docs.djangoproject.com/en/4.1/ref/models/querysets/
+
+
+### updating existing data is very common, you can do it with this commands:
+>>> job_1 = JobPost.objects.filter()[0]
+to get only the first jobpost
+>>> job_1.title="title updated"
+once you create the object, you can enter its properties and edit them,
+but be aware, this does not writes changes to the database holding the info, 
+it only changes the property in this "local" variable. to make the changes
+go up into the DB, you have to use the save() function after any edition:
+>>> job_1.save()
+
+
+### chaining query sets. you can combine multiple conditions to get a very specific 
+result. 
+>>> JobPost.objects.filter(salary__gt=1000).filter(title__contains="something in the title"))
+you can do this with multiple conditions to be extra especific 
+
+
+
+#### this one to exit the shell
+>>> exit()
