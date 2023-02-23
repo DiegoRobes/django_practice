@@ -29,4 +29,11 @@ class JobAdmin(admin.ModelAdmin):
 
 
 # MODELS
-admin.site.register(m.JobPost, JobAdmin)
+# all the customization from the JobAdmin class should be registered as admin.site.register(m.JobPost),
+# but we are going to take them away to be able to see the features of the other models 
+admin.site.register(m.JobPost)
+admin.site.register(m.Location)
+admin.site.register(m.Author)
+admin.site.register(m.Skills)
+
+
