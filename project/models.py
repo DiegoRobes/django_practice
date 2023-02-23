@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.text import slugify
 
+# list of field types https://docs.djangoproject.com/en/4.1/ref/models/fields/
 
-# we are doing a one-to-many relationship with this one:
+
+# we are doing a one-to-many relationship with this model:
 class Location(models.Model):
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
@@ -10,9 +12,15 @@ class Location(models.Model):
     country = models.CharField(max_length=50)
     zip_code = models.CharField(max_length=100)
 
+    
+# many-to-one relationships will be demonstrated with this one:
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    company = models.CharField(max_length=100)
+    designation = models.CharField(max_length=100)
 
-# Create your models here.
-# list of field types https://docs.djangoproject.com/en/4.1/ref/models/fields/
+
+# basic table with the key to the other tables
 class JobPost(models.Model):
     title = models.CharField(max_length=100, unique=True)
     # title was the initial field, now we add others with different type fields
@@ -21,8 +29,13 @@ class JobPost(models.Model):
     salary = models.IntegerField()
     # a slug is a human-friendly url that can be placed on the url bar on your browser
     slug = models.SlugField(null=True, max_length=50, unique=True)
-    # this one is the relationship for the first model 
+    # this one is the relationship for the first model
+    # the CASCADE function is used to delete the Location object made in the other table, the one that holds the
+    # relationship to this particular object in JobPost table. this is to avoid having locations without anything to
+    # relate to in the other table
     location = models.OneToOneField(Location, null=True, on_delete=models.CASCADE)
+    # this one is the foreign key to the Author table. same deal with cascade function
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
 
     # this messy function is responsible to create the slugs from the titles field of the model.
     # after you create the new object using the model in the console, you can see the result of this funct in the
