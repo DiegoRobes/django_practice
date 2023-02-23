@@ -12,12 +12,17 @@ class Location(models.Model):
     country = models.CharField(max_length=50)
     zip_code = models.CharField(max_length=100)
 
-    
+
 # many-to-one relationships will be demonstrated with this one:
 class Author(models.Model):
     name = models.CharField(max_length=100)
     company = models.CharField(max_length=100)
     designation = models.CharField(max_length=100)
+
+
+# many-to-many relationships:
+class Skills(models.Model):
+    name = models.CharField(max_length=100)
 
 
 # basic table with the key to the other tables
@@ -36,6 +41,7 @@ class JobPost(models.Model):
     location = models.OneToOneField(Location, null=True, on_delete=models.CASCADE)
     # this one is the foreign key to the Author table. same deal with cascade function
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
+    skills = models.ManyToManyField(Skills)
 
     # this messy function is responsible to create the slugs from the titles field of the model.
     # after you create the new object using the model in the console, you can see the result of this funct in the
