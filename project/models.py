@@ -2,6 +2,15 @@ from django.db import models
 from django.utils.text import slugify
 
 
+# we are doing a one-to-many relationship with this one:
+class Location(models.Model):
+    street = models.CharField(max_length=100)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    country = models.CharField(max_length=50)
+    zip_code = models.CharField(max_length=100)
+
+
 # Create your models here.
 # list of field types https://docs.djangoproject.com/en/4.1/ref/models/fields/
 class JobPost(models.Model):
@@ -12,6 +21,8 @@ class JobPost(models.Model):
     salary = models.IntegerField()
     # a slug is a human-friendly url that can be placed on the url bar on your browser
     slug = models.SlugField(null=True, max_length=50, unique=True)
+    # this one is the relationship for the first model 
+    location = models.OneToOneField(Location, null=True, on_delete=models.CASCADE)
 
     # this messy function is responsible to create the slugs from the titles field of the model.
     # after you create the new object using the model in the console, you can see the result of this funct in the
@@ -34,4 +45,3 @@ class JobPost(models.Model):
     # in this particular case we are asking the method to return the JOB TITLE
     def __str__(self):
         return self.title
-
