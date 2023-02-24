@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subscribe</title>
+</head>
+<body>
+    {% if message %}
+        {{ message }}
+    {% endif %}
+    <form  method="post">
+        {% csrf_token %}
+        {% if form %}
+        {{ form }}
+        <input type="submit" value="Register">
+        {% endif %}
+    </form>
+
+</body>
+</html>
