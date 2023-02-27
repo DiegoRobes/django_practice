@@ -18,5 +18,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('app_folder.urls'))
-]
+    path('', include('app_folder.urls')),
+    path('', include('subscribe.urls')),
+    path('upload/', include('upload.urls'))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# the + static is done to be able to render images that are being uploaded in real time
