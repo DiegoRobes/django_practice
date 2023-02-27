@@ -1,20 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Subscribe</title>
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'subscribe/css/styles.css' %}">
+    <script src="{% static 'subscribe/js/main.js' %}"></script>
 </head>
 <body>
+<h1 class="titles"> Please subscribe </h1>
     {% if message %}
         {{ message }}
     {% endif %}
     <form  method="post">
         {% csrf_token %}
         {% if form %}
-        {{ form }}
+        {{ form.as_p }}
         <input type="submit" value="Register">
         {% endif %}
     </form>
-
+    <br>
+    <img class="img" src="{% static 'subscribe/img/victory.jpg' %}">
+    <br>
+    <button onclick="popup()">Click me, fucker</button>
 </body>
 </html>
